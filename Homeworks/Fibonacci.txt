@@ -1,0 +1,38 @@
+		ldr		r10,=0x200 ; stack for LR
+		ldr		r11,=0x300 ; temp
+		mov		r1,#6 ; input
+		str		r1,[sp,#4]!
+		bl		fibo
+		ldr		r12,[sp],#-4 ; answer
+		end
+		
+fibo
+		str		lr,[r10,#4]!
+		ldr		r5,[sp],#-4
+		cmp		r5,#1
+		bls		one
+		str		r5,[r11,#4]!
+		
+		sub		r6,r5,#1
+		str		r6,[sp,#4]!
+		bl		fibo
+		
+		ldr		r5,[r11],#-4
+		sub		r7,r5,#2
+		str		r7,[sp,#4]!
+		bl		fibo
+		
+		ldr		r6,[sp],#-4
+		ldr		r7,[sp],#-4
+		add		r8,r6,r7
+		str		r8,[sp,#4]!
+		
+		ldr		lr,[r10],#-4
+		mov		pc,lr
+		
+one
+		mov		r9,#1
+		str		r9,[sp,#4]!
+		
+		ldr		lr,[r10],#-4
+		mov		pc,lr
